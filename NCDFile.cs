@@ -129,7 +129,7 @@ namespace RespondClient.DomiKnow.NinjaTrader
     }
     public static class GlobalOptions
     {
-        public static string HistoricalDataPath;
+        public static string HistoricalDataPath = string.Empty;
     }
     public interface INCDRecord {}
     public struct MinuteRecord : INCDRecord
@@ -176,17 +176,23 @@ namespace RespondClient.DomiKnow.NinjaTrader
         {
             _NCDFileType = ncdFileType;
             _instrumentId = instrumentId;
+
+            if (string.IsNullOrWhiteSpace(NinjaTrader.GlobalOptions.HistoricalDataPath))
+                throw new InvalidOperationException("HistoricalDataPath must be configured before reading NCD files.");
+
             // build file list
             DateTime startDate = date.Date.AddDays(-numberDaysBack);
             DateTime endDate = date.Date.AddDays(numberDaysForward);
 
-            string instrumentDataPath = null;
-            if (_NCDFileType == NCDFileType.Minute)
-                instrumentDataPath = Path.Combine(NinjaTrader.GlobalOptions.HistoricalDataPath, "minute", instrumentId);
-            else if (_NCDFileType == NCDFileType.Tick)
-                instrumentDataPath = Path.Combine(NinjaTrader.GlobalOptions.HistoricalDataPath, "tick", instrumentId);
-            else
-                throw new Exception($"Invalid NCDFileType: {_NCDFileType}");
+            string instrumentDataPath = _NCDFileType switch
+            {
+                NCDFileType.Minute => Path.Combine(NinjaTrader.GlobalOptions.HistoricalDataPath, "minute", instrumentId),
+                NCDFileType.Tick => Path.Combine(NinjaTrader.GlobalOptions.HistoricalDataPath, "tick", instrumentId),
+                _ => throw new InvalidOperationException($"Invalid NCDFileType: {_NCDFileType}")
+            };
+
+            if (!Directory.Exists(instrumentDataPath))
+                throw new DirectoryNotFoundException($"Instrument data path does not exist: {instrumentDataPath}");
 
             _files = new List<string>(
                 Directory.GetFiles(instrumentDataPath).Where(filePath =>
@@ -212,7 +218,7 @@ namespace RespondClient.DomiKnow.NinjaTrader
         List<string> _files;
         List<string> _filesLeft;
 
-        INCDFile _currentFile;
+        INCDFile _currentFile = null!;
 
         public INCDFile CurrentFile { get { return _currentFile; } }
         public NCDFileType NCDFileType { get { return _NCDFileType; } }

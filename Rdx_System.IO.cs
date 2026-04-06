@@ -35,17 +35,11 @@ namespace Respond
         public static double LineCount(this StreamReader reader)
         {
             double cnt = 0;
-            string line = null;
-            try
+            while (reader.ReadLine() is not null)
             {
-                while ((line = reader.ReadLine()) != null)
-                {
-                    ++cnt;
-                }
+                ++cnt;
             }
-            finally
-            {
-            }
+
             return cnt;
         }
         #endregion
@@ -54,57 +48,57 @@ namespace Respond
         // Unsigned values
         public static float ReadFloatBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToSingle(binRdr.ReadBytesRequired(sizeof(float)).Reverse(), 0);
+            return BitConverter.ToSingle(binRdr.ReadBytesRequired(sizeof(float)).Reverse().ToArray(), 0);
         }
         public static float ReadSingleBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToSingle(binRdr.ReadBytesRequired(sizeof(float)).Reverse(), 0);
+            return BitConverter.ToSingle(binRdr.ReadBytesRequired(sizeof(float)).Reverse().ToArray(), 0);
         }
         public static double ReadDoubleBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToDouble(binRdr.ReadBytesRequired(sizeof(double)).Reverse(), 0);
+            return BitConverter.ToDouble(binRdr.ReadBytesRequired(sizeof(double)).Reverse().ToArray(), 0);
         }
         // Signed and Unsigned values
         public static short ReadShortBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToInt16(binRdr.ReadBytesRequired(sizeof(short)).Reverse(), 0);
+            return BitConverter.ToInt16(binRdr.ReadBytesRequired(sizeof(short)).Reverse().ToArray(), 0);
         }
         public static ushort ReadUShortBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToUInt16(binRdr.ReadBytesRequired(sizeof(ushort)).Reverse(), 0);
+            return BitConverter.ToUInt16(binRdr.ReadBytesRequired(sizeof(ushort)).Reverse().ToArray(), 0);
         }
         public static ulong ReadULongBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToUInt64(binRdr.ReadBytesRequired(sizeof(ulong)).Reverse(), 0);
+            return BitConverter.ToUInt64(binRdr.ReadBytesRequired(sizeof(ulong)).Reverse().ToArray(), 0);
         }
         public static long ReadLongBE(this BinaryReader binRdr)
         {
-            return BitConverter.ToInt64(binRdr.ReadBytesRequired(sizeof(long)).Reverse(), 0);
+            return BitConverter.ToInt64(binRdr.ReadBytesRequired(sizeof(long)).Reverse().ToArray(), 0);
         }
         // Signed and Unsigned Integers
         public static UInt16 ReadUInt16BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToUInt16(binRdr.ReadBytesRequired(sizeof(UInt16)).Reverse(), 0);
+            return BitConverter.ToUInt16(binRdr.ReadBytesRequired(sizeof(UInt16)).Reverse().ToArray(), 0);
         }
         public static Int16 ReadInt16BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToInt16(binRdr.ReadBytesRequired(sizeof(Int16)).Reverse(), 0);
+            return BitConverter.ToInt16(binRdr.ReadBytesRequired(sizeof(Int16)).Reverse().ToArray(), 0);
         }
         public static UInt32 ReadUInt32BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToUInt32(binRdr.ReadBytesRequired(sizeof(UInt32)).Reverse(), 0);
+            return BitConverter.ToUInt32(binRdr.ReadBytesRequired(sizeof(UInt32)).Reverse().ToArray(), 0);
         }
         public static Int32 ReadInt32BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToInt32(binRdr.ReadBytesRequired(sizeof(Int32)).Reverse(), 0);
+            return BitConverter.ToInt32(binRdr.ReadBytesRequired(sizeof(Int32)).Reverse().ToArray(), 0);
         }
         public static UInt64 ReadUInt64BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToUInt64(binRdr.ReadBytesRequired(sizeof(UInt64)).Reverse(), 0);
+            return BitConverter.ToUInt64(binRdr.ReadBytesRequired(sizeof(UInt64)).Reverse().ToArray(), 0);
         }
         public static Int64 ReadInt64BE(this BinaryReader binRdr)
         {
-            return BitConverter.ToInt64(binRdr.ReadBytesRequired(sizeof(Int64)).Reverse(), 0);
+            return BitConverter.ToInt64(binRdr.ReadBytesRequired(sizeof(Int64)).Reverse().ToArray(), 0);
         }
 
         public static byte[] ReadBytesRequired(this BinaryReader binRdr, int byteCount)

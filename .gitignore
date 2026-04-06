@@ -1,0 +1,6 @@
+**/bin/
+**/obj/
+Data_Lake/
+*.user
+*.suo
+github/copilot-instructions.md

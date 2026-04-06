@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../NCDFile.cs" Link="Vendor/NCDFile.cs" />
+    <Compile Include="../Rdx_System.IO.cs" Link="Vendor/Rdx_System.IO.cs" />
+  </ItemGroup>
+</Project>
